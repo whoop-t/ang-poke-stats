@@ -1,0 +1,5 @@
+<div *ngIf="pokeList">
+  <div *ngFor="let pokemon of pokeList.results">{{ pokemon.name }}</div>
+  <button (click)="onNextPage()">next page</button>
+  <button (click)="onPreviousPage()">previous page</button>
+</div>
