@@ -1,7 +1,17 @@
-<div *ngIf="pokeList">
-  <div *ngFor="let pokemon of pokeList.results">
-    <h1>{{ pokemon.name }}</h1>
+<main *ngIf="pokeList" class="main-wrapper">
+  <div *ngFor="let pokemon of pokeList.results" class="poke-menu-wrapper">
+    <a routerLink="/pokemon/{{ pokemon.name }}" style="position: relative;">
+      <img src="../../../assets/pokemenu.png" alt="pokemenu border" />
+      <div class="name-wrapper">
+        <img
+          src="../../../assets/pokemonarrow.jpeg"
+          alt="arrow"
+          class="arrow"
+        />
+        <h1>{{ pokemon.name }}</h1>
+      </div>
+    </a>
   </div>
-  <button (click)="onNextPage()">next page</button>
   <button (click)="onPreviousPage()">previous page</button>
-</div>
+  <button (click)="onNextPage()">next page</button>
+</main>
