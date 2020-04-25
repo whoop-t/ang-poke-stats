@@ -15,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, PokelistMainComponent],
+  declarations: [AppComponent, PokelistMainComponent, PokemonComponent],
   imports: [BrowserModule, HttpClientModule, RouterModule.forRoot(routes)],
   providers: [],
   bootstrap: [AppComponent],
