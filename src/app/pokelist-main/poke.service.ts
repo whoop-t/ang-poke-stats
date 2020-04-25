@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -27,12 +27,8 @@ export class PokeService {
     });
   }
 
-  public setPages(next, previous) {
-    if (next) {
-      this.nextPage = next;
-    }
-    if (previous) {
-      this.previousPage = previous;
-    }
+  public setPages(next: string, previous: string) {
+    this.nextPage = next;
+    this.previousPage = previous;
   }
 }

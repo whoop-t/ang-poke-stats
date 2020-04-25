@@ -13,6 +13,7 @@ export class PokelistMainComponent implements OnInit {
 
   ngOnInit(): void {
     this.pokeService.getMainPokeList().subscribe((data: any) => {
+      console.log(data);
       this.pokeList = data;
       this.pokeService.setPages(data.next, data.previous);
     });
