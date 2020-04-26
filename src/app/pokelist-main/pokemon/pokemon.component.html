@@ -1,5 +1,15 @@
-<main class="pokemon-wrapper">
-  <section *ngIf="pokemonData" class="sprite-wrapper">
+<app-loading *ngIf="!pokemonData"></app-loading>
+<main *ngIf="pokemonData === 'Not Found'">
+  <div class="notfound">
+    <h4>{{ pokemonData }}</h4>
+    <img src="../../../assets/notfound.png" alt="" />
+  </div>
+</main>
+<main
+  class="pokemon-wrapper"
+  *ngIf="pokemonData && pokemonData !== 'Not Found' && stats !== []"
+>
+  <section class="sprite-wrapper">
     <h4>{{ pokemonData.name }}</h4>
     <img src="{{ sprite }}" alt="sprite picture" />
     <img src="../../../assets/gameboy.jpg" alt="gameboy" class="gameboy" />
@@ -12,8 +22,8 @@
       <button (click)="onSpriteChangeClick($event)" class="sback">sback</button>
     </div>
   </section>
-  <section *ngIf="pokemonData && stats" class="graph-wrapper">
-    <h4>{{ pokemonName }} Base Stats</h4>
+  <section class="graph-wrapper">
+    <h4>{{ pokemonData.name }} Base Stats</h4>
     <!--Charts package to plot stats-->
     <ngx-charts-bar-vertical
       [view]="view"
@@ -28,7 +38,7 @@
     >
     </ngx-charts-bar-vertical>
   </section>
-  <section *ngIf="pokemonData" class="details-wrapper">
+  <section class="details-wrapper">
     <div class="id">
       <h4>Id:</h4>
       <p>{{ pokemonData.id }}</p>

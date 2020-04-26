@@ -9,6 +9,9 @@ import { AppComponent } from './app.component';
 import { PokelistMainComponent } from './pokelist-main/pokelist-main/pokelist-main.component';
 import { PokemonComponent } from './pokelist-main/pokemon/pokemon.component';
 import { PokeHeaderComponent } from './pokelist-main/poke-header/poke-header.component';
+import { LoadingComponent } from './shared/loading/loading.component';
+import { PokeSearchComponent } from './pokelist-main/poke-search/poke-search.component';
+import { FormsModule } from '@angular/forms';
 
 // Routes for app
 const routes: Routes = [
@@ -24,12 +27,15 @@ const routes: Routes = [
     PokelistMainComponent,
     PokemonComponent,
     PokeHeaderComponent,
+    LoadingComponent,
+    PokeSearchComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     NgxChartsModule,
     BrowserAnimationsModule,
+    FormsModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],

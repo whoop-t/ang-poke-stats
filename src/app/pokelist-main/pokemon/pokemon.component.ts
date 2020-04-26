@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ActivatedRoute } from '@angular/router';
 import { PokeService } from '../poke.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon',
   templateUrl: './pokemon.component.html',
   styleUrls: ['./pokemon.component.css'],
 })
-export class PokemonComponent implements OnInit {
+export class PokemonComponent implements OnInit, OnDestroy {
   /** Chart Properties **************/
   view: any[] = [900, 400];
 
@@ -27,10 +28,12 @@ export class PokemonComponent implements OnInit {
   /** Chart Properties **************/
 
   public pokemonName: string;
-  public pokemonData: any;
+  public pokemonData: any = null;
   public stats: Object[] = [];
   public sprites: any = {};
   public sprite: string;
+  // List of subscriptions to unsubscribe from when destroy
+  private subscriptions = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -38,20 +41,35 @@ export class PokemonComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get name from query params, fetch using name
-    this.pokemonName = this.route.snapshot.paramMap.get('name');
-    this.pokeService.getSinglePokeData(this.pokemonName);
-    // Get data from BehaviorSubject in service
-    this.pokeService.updateSinglePokeData().subscribe((data) => {
-      if (data) {
-        // Set initial data for component render
-        this.pokemonData = data;
-        this.sprites = data.sprites;
-        this.sprite = data.sprites.front_default;
+    this.subscriptions.add(
+      // Get name from query params, fetch using name
+      this.route.params.subscribe((params) => {
+        this.pokemonData = null;
         console.log(this.pokemonData);
-        this.filterStats(data);
-      }
-    });
+        this.pokemonName = params.name;
+        this.pokeService.getSinglePokeData(this.pokemonName);
+      })
+    );
+    // Get data from BehaviorSubject in service
+    this.subscriptions.add(
+      this.pokeService.updateSinglePokeData().subscribe((data) => {
+        if (data === 'Not Found') {
+          this.pokemonData = data;
+        } else if (data) {
+          this.stats = [];
+          // Set initial data for component render
+          this.pokemonData = data;
+          this.sprites = data.sprites;
+          this.sprite = data.sprites.front_default;
+          console.log(this.pokemonData);
+          this.filterStats(data);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   /**

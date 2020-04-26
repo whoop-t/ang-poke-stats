@@ -1,3 +1,4 @@
+<app-loading *ngIf="!pokeData"></app-loading>
 <main *ngIf="pokeData" class="main-wrapper">
   <!--Loop through pokeData data and show results-->
   <div *ngFor="let pokemon of pokeData.results" class="poke-menu-wrapper">

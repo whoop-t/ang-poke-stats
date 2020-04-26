@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -22,14 +22,10 @@ export class PokeService {
    * Fetches data from pokeApi, updates pokeSource BehaviorSubject with data
    */
   public getMainPokeList() {
-    this.http
-      .get(`${this.pokeApiUrl}`, {
-        headers: { header: 'Access-Control-Allow-Origin' },
-      })
-      .subscribe((data: any) => {
-        this.pokeSource.next(data);
-        this.setPages(data.next, data.previous);
-      });
+    this.http.get(this.pokeApiUrl).subscribe((data: any) => {
+      this.pokeSource.next(data);
+      this.setPages(data.next, data.previous);
+    });
   }
 
   /**
@@ -42,9 +38,15 @@ export class PokeService {
       .get(`${this.pokeApiUrl}${name}`, {
         headers: { header: 'Access-Control-Allow-Origin' },
       })
-      .subscribe((data) => {
-        this.singlePokeSource.next(data);
-      });
+      .subscribe(
+        (data) => {
+          this.singlePokeSource.next(data);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+          this.singlePokeSource.next(error.error);
+        }
+      );
   }
 
   /**

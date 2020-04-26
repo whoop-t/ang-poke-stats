@@ -1,0 +1,22 @@
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section > form > input {
+  height: 2rem;
+  width: 20rem;
+  font-size: 1.25rem;
+  border: none;
+}
+
+section > form {
+  display: flex;
+}
+
+section > form > button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
