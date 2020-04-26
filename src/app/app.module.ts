@@ -17,8 +17,7 @@ import { FormsModule } from '@angular/forms';
 const routes: Routes = [
   { path: '', redirectTo: '/pokelist', pathMatch: 'full' },
   { path: 'pokelist', component: PokelistMainComponent },
-  { path: 'pokelist/:pagenum', component: PokelistMainComponent },
-  { path: 'pokemon/:name', component: PokemonComponent },
+  { path: 'pokelist/:name', component: PokemonComponent },
 ];
 
 @NgModule({

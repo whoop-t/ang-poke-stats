@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 // import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ActivatedRoute } from '@angular/router';
 import { PokeService } from '../poke.service';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './pokemon.component.html',
   styleUrls: ['./pokemon.component.css'],
 })
-export class PokemonComponent implements OnInit, OnDestroy {
+export class PokemonComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Chart Properties **************/
   view: any[] = [900, 400];
 
@@ -40,12 +40,14 @@ export class PokemonComponent implements OnInit, OnDestroy {
     private pokeService: PokeService
   ) {}
 
-  ngOnInit(): void {
+  //! If accessing pokemon from main page by clikc link, it renders data twice, never show loading
+  //! If searching from within single pokemon component, updates data and shows loading
+  // Find issue
+  ngOnInit() {
     this.subscriptions.add(
       // Get name from query params, fetch using name
       this.route.params.subscribe((params) => {
         this.pokemonData = null;
-        console.log(this.pokemonData);
         this.pokemonName = params.name;
         this.pokeService.getSinglePokeData(this.pokemonName);
       })
@@ -67,6 +69,8 @@ export class PokemonComponent implements OnInit, OnDestroy {
       })
     );
   }
+
+  ngAfterViewInit(): void {}
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

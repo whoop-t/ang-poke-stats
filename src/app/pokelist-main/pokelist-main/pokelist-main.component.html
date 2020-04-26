@@ -2,7 +2,7 @@
 <main *ngIf="pokeData" class="main-wrapper">
   <!--Loop through pokeData data and show results-->
   <div *ngFor="let pokemon of pokeData.results" class="poke-menu-wrapper">
-    <a routerLink="/pokemon/{{ pokemon.name }}" style="position: relative;">
+    <a routerLink="/pokelist/{{ pokemon.name }}" style="position: relative;">
       <img src="../../../assets/pokemenu.png" alt="pokemenu border" />
       <div class="name-wrapper">
         <img

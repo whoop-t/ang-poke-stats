@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./poke-search.component.css'],
 })
 export class PokeSearchComponent implements OnInit {
-  private url: string = '/pokemon/';
+  private url: string = '/pokelist/';
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
@@ -21,6 +21,7 @@ export class PokeSearchComponent implements OnInit {
     // Dont allow submissions with no input
     if (f.value.pokemon !== '') {
       this.router.navigate([this.url, f.value.pokemon]);
+      f.reset();
     }
   }
 }
