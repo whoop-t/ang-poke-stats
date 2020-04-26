@@ -1,1 +1,26 @@
-<h1>{{ pokemonData.name }}</h1>
+<main class="pokemon-wrapper">
+  <section *ngIf="pokemonData" class="sprite-wrapper">
+    <h4>{{ pokemonData.name }}</h4>
+    <img src="{{ pokemonData.sprites.front_default }}" alt="sprite picture" />
+    <img src="../../../assets/gameboy.jpg" alt="gameboy" class="gameboy" />
+  </section>
+  <section *ngIf="pokemonData && stats" class="graph-wrapper">
+    <h4>{{ pokemonName }} Base Stats</h4>
+    <!--Charts package to plot stats-->
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="stats"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+    >
+    </ngx-charts-bar-vertical>
+  </section>
+  <section *ngIf="pokemonData" class="details-wrapper">
+    {{ pokemonData.name }}
+  </section>
+</main>

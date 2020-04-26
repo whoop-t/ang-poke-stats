@@ -1,0 +1,60 @@
+/* Wrapper for all content*/
+.pokemon-wrapper {
+  height: 88vh;
+  margin: 0 7rem;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  grid-template-rows: 1fr 1.4fr;
+  grid-template-areas:
+    "sprite graph "
+    "details details ";
+}
+
+/* Wrapper for sprite and name*/
+.sprite-wrapper {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-area: sprite;
+}
+
+.sprite-wrapper > img {
+  height: 10rem;
+}
+
+.sprite-wrapper > .gameboy {
+  height: 20rem;
+  position: absolute;
+  z-index: -10;
+  bottom: 0;
+}
+
+.sprite-wrapper > h4 {
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+/* Wrapper for graph*/
+.graph-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-area: graph;
+}
+
+.graph-wrapper > h4 {
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+/* Wrapper for details*/
+.details-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-area: details;
+  background-color: burlywood;
+}

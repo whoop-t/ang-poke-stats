@@ -93,6 +93,7 @@ video {
 body {
   font-size: 10px;
   font-family: monospace;
+  height: 100vh;
 }
 
 h1 {
