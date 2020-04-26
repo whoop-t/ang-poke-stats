@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,19 +9,57 @@ export class PokeService {
   constructor(private http: HttpClient) {}
 
   private pokeApiUrl = 'https://pokeapi.co/api/v2/pokemon/';
+  // BehaviorSubjects to be able to subscribe to the data
+  private pokeSource = new BehaviorSubject(null);
+  private singlePokeSource = new BehaviorSubject(null);
+  public pokeData = this.pokeSource.asObservable();
+  public singlePokeData = this.singlePokeSource.asObservable();
   private nextPage: string;
   private previousPage: string;
 
   /**
    * getMainPokeList
-   * @param name
-   * Returns data from pokeapi, it can accept a param of name which will which specific data on the pokemon name passed in.
-   * If no param, it will return list of pokemon names with pagination included
+   * Fetches data from pokeApi, updates pokeSource BehaviorSubject with data
    */
-  public getMainPokeList(name?: string) {
-    return this.http.get(`${this.pokeApiUrl}${name ? name : ''}`, {
-      headers: { header: 'Access-Control-Allow-Origin' },
-    });
+  public getMainPokeList() {
+    this.http
+      .get(`${this.pokeApiUrl}`, {
+        headers: { header: 'Access-Control-Allow-Origin' },
+      })
+      .subscribe((data: any) => {
+        this.pokeSource.next(data);
+        this.setPages(data.next, data.previous);
+      });
+  }
+
+  /**
+   * getSinglePokeData
+   * @param name
+   * Fetches data from pokeApi, updates singlePokeSource BehaviorSubject with data
+   */
+  public getSinglePokeData(name: string) {
+    this.http
+      .get(`${this.pokeApiUrl}${name}`, {
+        headers: { header: 'Access-Control-Allow-Origin' },
+      })
+      .subscribe((data) => {
+        this.singlePokeSource.next(data);
+      });
+  }
+
+  /**
+   * updatePokeData
+   * Return data from pokeData Observable
+   */
+  public updatePokeData() {
+    return this.pokeData;
+  }
+  /**
+   * updateSinglePokeData
+   * Return data from singlePokeData Observable
+   */
+  public updateSinglePokeData() {
+    return this.singlePokeData;
   }
 
   /**
@@ -28,9 +67,18 @@ export class PokeService {
    * Takes nextpage pagination save from initial fetch, using that to fetch next list of pokemon
    */
   public getNextPageList() {
-    return this.http.get(`${this.nextPage}`, {
-      headers: { header: 'Access-Control-Allow-Origin' },
-    });
+    if (this.nextPage) {
+      this.http
+        .get(`${this.nextPage}`, {
+          headers: { header: 'Access-Control-Allow-Origin' },
+        })
+        .subscribe((data: any) => {
+          this.pokeSource.next(data);
+          this.setPages(data.next, data.previous);
+        });
+    } else {
+      console.log('no next page');
+    }
   }
 
   /**
@@ -38,9 +86,18 @@ export class PokeService {
    * Takes previouspage pagination save from initial fetch, using that to fetch previous list of pokemon
    */
   public getPreviousPageList() {
-    return this.http.get(`${this.previousPage}`, {
-      headers: { header: 'Access-Control-Allow-Origin' },
-    });
+    if (this.previousPage) {
+      this.http
+        .get(`${this.previousPage}`, {
+          headers: { header: 'Access-Control-Allow-Origin' },
+        })
+        .subscribe((data: any) => {
+          this.pokeSource.next(data);
+          this.setPages(data.next, data.previous);
+        });
+    } else {
+      console.log('no previous page');
+    }
   }
 
   /**

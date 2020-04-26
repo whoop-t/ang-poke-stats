@@ -7,37 +7,17 @@ import { PokeService } from '../poke.service';
   styleUrls: ['./pokelist-main.component.css'],
 })
 export class PokelistMainComponent implements OnInit {
-  public pokeList: any;
+  public pokeData: any;
 
   constructor(private pokeService: PokeService) {}
 
   ngOnInit(): void {
-    // Will fetch pokemon list data on init using method in service
-    this.pokeService.getMainPokeList().subscribe((data: any) => {
-      this.pokeList = data;
-      this.pokeService.setPages(data.next, data.previous);
-    });
-  }
+    // Fetch pokemon list data on init using method in service
+    this.pokeService.getMainPokeList();
 
-  /**
-   * onNextPage
-   * Will update nextpage qurery with pagniation sent back from intial request
-   */
-  public onNextPage() {
-    this.pokeService.getNextPageList().subscribe((data: any) => {
-      this.pokeList = data;
-      this.pokeService.setPages(data.next, data.previous);
-    });
-  }
-
-  /**
-   * onPreviousPage
-   * Will update previouspage qurery with pagniation sent back from intial request
-   */
-  public onPreviousPage() {
-    this.pokeService.getPreviousPageList().subscribe((data: any) => {
-      this.pokeList = data;
-      this.pokeService.setPages(data.next, data.previous);
+    // updatePokeData is reuturning observable, subscribing to data on the service BehaviorSubject pokeData
+    this.pokeService.updatePokeData().subscribe((data) => {
+      this.pokeData = data;
     });
   }
 }

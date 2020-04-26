@@ -1,0 +1,28 @@
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ef5350;
+}
+
+button {
+  background-color: #ef5350;
+  border: none;
+  cursor: pointer;
+}
+
+.pokestat-header-img {
+  height: 5rem;
+}
+.header-arrow {
+  height: 3rem;
+  margin: 0 0.25rem;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+.header-arrow:hover {
+  transform: scale(1, 1.2);
+}

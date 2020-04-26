@@ -17,9 +17,11 @@ export class PokemonComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get name from query params, fetch using name and store data
+    // Get name from query params, fetch using name
     this.pokemonName = this.route.snapshot.paramMap.get('name');
-    this.pokeService.getMainPokeList(this.pokemonName).subscribe((data) => {
+    this.pokeService.getSinglePokeData(this.pokemonName);
+    // Get data from BehaviorSubject in service
+    this.pokeService.updateSinglePokeData().subscribe((data) => {
       this.pokemonData = data;
     });
   }
