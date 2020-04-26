@@ -1,8 +1,16 @@
 <main class="pokemon-wrapper">
   <section *ngIf="pokemonData" class="sprite-wrapper">
     <h4>{{ pokemonData.name }}</h4>
-    <img src="{{ pokemonData.sprites.front_default }}" alt="sprite picture" />
+    <img src="{{ sprite }}" alt="sprite picture" />
     <img src="../../../assets/gameboy.jpg" alt="gameboy" class="gameboy" />
+    <div class="gameboy-button-wrapper">
+      <button (click)="onSpriteChangeClick($event)" class="front">front</button>
+      <button (click)="onSpriteChangeClick($event)" class="back">back</button>
+      <button (click)="onSpriteChangeClick($event)" class="sfront">
+        sfront
+      </button>
+      <button (click)="onSpriteChangeClick($event)" class="sback">sback</button>
+    </div>
   </section>
   <section *ngIf="pokemonData && stats" class="graph-wrapper">
     <h4>{{ pokemonName }} Base Stats</h4>
@@ -21,6 +29,24 @@
     </ngx-charts-bar-vertical>
   </section>
   <section *ngIf="pokemonData" class="details-wrapper">
-    {{ pokemonData.name }}
+    <div class="id">
+      <h4>Id:</h4>
+      <p>{{ pokemonData.id }}</p>
+    </div>
+    <div class="height">
+      <h4>Height:</h4>
+      <p>{{ pokemonData.height }}</p>
+    </div>
+    <div class="weight">
+      <h4>Weight:</h4>
+      <p>{{ pokemonData.weight }}</p>
+    </div>
+    <div class="types">
+      <h4>Type(s):</h4>
+      <div class="type-loop">
+        <p *ngFor="let item of pokemonData.types">{{ item.type.name }}</p>
+      </div>
+    </div>
   </section>
+  <!-- <section *ngIf="pokemonData" class="forms-wrapper"></section> -->
 </main>

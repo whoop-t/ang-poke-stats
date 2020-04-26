@@ -10,26 +10,27 @@ import { PokeService } from '../poke.service';
 })
 export class PokemonComponent implements OnInit {
   /** Chart Properties **************/
-  view: any[] = [500, 300];
+  view: any[] = [900, 400];
 
   // options
-  showXAxis = false;
+  showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
-  showXAxisLabel = false;
+  showXAxisLabel = true;
   // xAxisLabel = 'Stats';
   showYAxisLabel = false;
 
   colorScheme = {
     domain: ['#F85888', '#78C750', '#6890F0', '#F8D030', '#F07F2E', '#FD0002'],
   };
-
   /** Chart Properties **************/
 
   public pokemonName: string;
   public pokemonData: any;
   public stats: Object[] = [];
+  public sprites: any = {};
+  public sprite: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +44,12 @@ export class PokemonComponent implements OnInit {
     // Get data from BehaviorSubject in service
     this.pokeService.updateSinglePokeData().subscribe((data) => {
       if (data) {
+        // Set initial data for component render
         this.pokemonData = data;
+        this.sprites = data.sprites;
+        this.sprite = data.sprites.front_default;
         console.log(this.pokemonData);
         this.filterStats(data);
-        console.log(this.stats);
       }
     });
   }
@@ -63,12 +66,34 @@ export class PokemonComponent implements OnInit {
           name: '',
           value: 0,
         };
-        console.log(stat.base_stat);
-        console.log(stat.stat.name);
         filteredObj.name = stat.stat.name;
         filteredObj.value = stat.base_stat;
         this.stats.push(filteredObj);
       });
+    }
+  }
+
+  /**
+   * onSpriteChangeClick
+   * @param e
+   * Updates sprite property based on class on button clicked
+   */
+  onSpriteChangeClick(e) {
+    switch (e.target.className) {
+      case 'front':
+        this.sprite = this.sprites.front_default;
+        break;
+      case 'back':
+        this.sprite = this.sprites.back_default;
+        break;
+      case 'sfront':
+        this.sprite = this.sprites.front_shiny;
+        break;
+      case 'sback':
+        this.sprite = this.sprites.back_shiny;
+        break;
+      default:
+        this.sprite = this.sprites.front_default;
     }
   }
 }
