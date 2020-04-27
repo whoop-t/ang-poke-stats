@@ -2,12 +2,14 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 // import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ActivatedRoute } from '@angular/router';
 import { PokeService } from '../poke.service';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon',
   templateUrl: './pokemon.component.html',
   styleUrls: ['./pokemon.component.css'],
+  // Provider to destroy service on unmount
+  providers: [PokeService],
 })
 export class PokemonComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Chart Properties **************/
@@ -40,7 +42,7 @@ export class PokemonComponent implements OnInit, OnDestroy, AfterViewInit {
     private pokeService: PokeService
   ) {}
 
-  //! If accessing pokemon from main page by clikc link, it renders data twice, never show loading
+  //! If accessing pokemon from main page by click link, it renders data twice, never show loading
   //! If searching from within single pokemon component, updates data and shows loading
   // Find issue
   ngOnInit() {
