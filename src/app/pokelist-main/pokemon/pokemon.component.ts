@@ -42,9 +42,6 @@ export class PokemonComponent implements OnInit, OnDestroy, AfterViewInit {
     private pokeService: PokeService
   ) {}
 
-  //! If accessing pokemon from main page by click link, it renders data twice, never show loading
-  //! If searching from within single pokemon component, updates data and shows loading
-  // Find issue
   ngOnInit() {
     this.subscriptions.add(
       // Get name from query params, fetch using name
